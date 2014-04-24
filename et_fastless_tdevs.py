@@ -10,6 +10,7 @@ Requirements:
 
 """
 
+
 import argparse
 import subprocess
 try:
@@ -36,6 +37,7 @@ fastTdevs = set()   # FAST-managed TDEVs
 allTdevs = set()    # All TDEVs (that are in SGs)
 
 # Iterate through all Storage Groups, capturing membership info
+
 for sg in sgtree.iterfind('SG'):
     for member in sg.iterfind('DEVS_List/Device'):
         dev_name = member.find('dev_name').text
@@ -43,4 +45,6 @@ for sg in sgtree.iterfind('SG'):
         if sg.find('SG_Info/FAST_Policy').text == "Yes":
             fastTdevs.update([dev_name])
 
-print(", ".join(sorted(fastTdevs.symmetric_difference(allTdevs))))
+# Print report
+print(', '.join(allTdevs - fastTdevs))
+
